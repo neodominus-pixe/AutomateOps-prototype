@@ -1,8 +1,10 @@
 import { ArrowRight } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useRipple } from '../hooks/useRipple';
 
 export default function FinalCTA() {
   const { ref, isVisible } = useScrollReveal();
+  const { ripples, createRipple } = useRipple();
 
   return (
     <section className="py-28 sm:py-48 bg-charcoal-900 relative overflow-hidden">
@@ -26,10 +28,25 @@ export default function FinalCTA() {
 
         <a
           href="#audit"
-          className="group relative inline-flex items-center gap-3 bg-accent text-white font-medium text-lg px-10 py-5 rounded-xl transition-all duration-300 hover:bg-accent-hover hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(74,158,255,0.4)] animate-breathe"
+          onClick={createRipple}
+          className="group relative overflow-hidden inline-flex items-center gap-3 bg-accent text-white font-medium text-lg px-10 py-5 rounded-xl transition-all duration-300 hover:bg-accent-hover hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(74,158,255,0.4)] animate-breathe"
         >
-          Request Your Free Automation Audit
-          <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+          <span className="relative z-10">Request Your Free Automation Audit</span>
+          <ArrowRight className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+          <div className="ripple-container">
+            {ripples.map((ripple) => (
+              <span
+                key={ripple.id}
+                className="ripple"
+                style={{
+                  width: ripple.size,
+                  height: ripple.size,
+                  left: ripple.x,
+                  top: ripple.y,
+                }}
+              />
+            ))}
+          </div>
         </a>
       </div>
     </section>

@@ -1,8 +1,10 @@
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useRipple } from '../hooks/useRipple';
 
 export default function Hero() {
   const [scrollY, setScrollY] = useState(0);
+  const { ripples, createRipple } = useRipple();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -30,20 +32,25 @@ export default function Hero() {
       </div>
 
       {/* Background Grid */}
-      <div 
-        className="absolute inset-0 opacity-[0.06] z-0" 
+      <div
+        className="absolute inset-0 opacity-[0.06] z-0"
         style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
           backgroundSize: '40px 40px',
           transform: `translateY(${scrollY * 0.1}px)`,
-        }} 
+        }}
       />
 
-      <div 
+      <div
         className="relative z-10 max-w-content mx-auto px-10 text-center"
         style={{ opacity, transform: `translateY(${parallaxY}px)` }}
       >
         <div className="animate-fade-in">
+          <div className="inline-block px-3 py-1 rounded-full border border-accent/20 bg-accent/5 mb-8">
+            <span className="text-xs font-mono font-medium text-accent tracking-[0.2em] uppercase">
+              System Status: Ready // Protocol v2.4
+            </span>
+          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-white leading-[1.1] tracking-tight max-w-4xl mx-auto drop-shadow-2xl">
             Your operations run on manual work, disconnected tools, and{' '}
             <span className="text-gradient inline-block">wasted hours.</span>
@@ -56,16 +63,31 @@ export default function Hero() {
           <div className="mt-12">
             <a
               href="#audit"
-              className="group relative inline-flex items-center gap-3 bg-accent text-white font-medium text-lg px-8 py-4 rounded-lg transition-all duration-300 hover:bg-accent-hover hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(74,158,255,0.4)] animate-breathe"
+              onClick={createRipple}
+              className="group relative overflow-hidden inline-flex items-center gap-3 bg-accent text-white font-medium text-lg px-8 py-4 rounded-lg transition-all duration-300 hover:bg-accent-hover hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(74,158,255,0.4)] animate-breathe"
             >
-              Request an Automation Audit
-              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              <span className="relative z-10">Request an Automation Audit</span>
+              <ArrowRight className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              <div className="ripple-container">
+                {ripples.map((ripple) => (
+                  <span
+                    key={ripple.id}
+                    className="ripple"
+                    style={{
+                      width: ripple.size,
+                      height: ripple.size,
+                      left: ripple.x,
+                      top: ripple.y,
+                    }}
+                  />
+                ))}
+              </div>
             </a>
           </div>
         </div>
       </div>
 
-      <div 
+      <div
         className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce-slow"
         style={{ opacity: Math.max(0, 1 - scrollY / 200) }}
       >

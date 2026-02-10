@@ -1,8 +1,10 @@
 import { Bot, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useRipple } from '../hooks/useRipple';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { ripples, createRipple } = useRipple();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -13,8 +15,8 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? 'bg-charcoal-900/80 backdrop-blur-xl border-b border-white/[0.08] h-16 sm:h-20'
-          : 'bg-transparent h-20 sm:h-24'
+        ? 'bg-charcoal-900/80 backdrop-blur-xl border-b border-white/[0.08] h-16 sm:h-20'
+        : 'bg-transparent h-20 sm:h-24'
         }`}
     >
       <div className="max-w-content mx-auto px-6 sm:px-10 flex items-center justify-between h-full">
@@ -32,19 +34,35 @@ export default function Navbar() {
             <a
               key={item}
               href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-              className="text-sm font-medium text-white/60 hover:text-white transition-all duration-300 hover:tracking-widest uppercase"
+              className="nav-link relative overflow-hidden text-sm font-medium text-white/60 hover:text-white transition-all duration-300 hover:tracking-widest uppercase py-1 px-2"
             >
-              {item}
+              <span className="relative z-10">{item}</span>
+              <div className="nav-shimmer" />
             </a>
           ))}
         </div>
 
         <a
           href="#audit"
-          className="group inline-flex items-center gap-2.5 bg-white/5 hover:bg-white/10 text-white text-sm font-semibold px-5 py-2.5 rounded-full border border-white/10 transition-all duration-300 hover:scale-[1.05]"
+          onClick={createRipple}
+          className="group relative overflow-hidden inline-flex items-center gap-2.5 bg-white/5 hover:bg-white/10 text-white text-sm font-semibold px-5 py-2.5 rounded-full border border-white/10 transition-all duration-300 hover:scale-[1.05]"
         >
-          <span>Get Your Free Audit</span>
-          <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          <span className="relative z-10">Get Your Free Audit</span>
+          <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          <div className="ripple-container">
+            {ripples.map((ripple) => (
+              <span
+                key={ripple.id}
+                className="ripple"
+                style={{
+                  width: ripple.size,
+                  height: ripple.size,
+                  left: ripple.x,
+                  top: ripple.y,
+                }}
+              />
+            ))}
+          </div>
         </a>
       </div>
     </nav>

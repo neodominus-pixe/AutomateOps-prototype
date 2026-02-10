@@ -9,6 +9,9 @@ import WhatHappensNext from './components/WhatHappensNext';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 
+import ROICalculator from './components/ROICalculator';
+import LogicPath from './components/LogicPath';
+
 function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -30,11 +33,14 @@ function App() {
         }}
       />
 
+      <LogicPath />
+
       <div className="relative z-10">
         <Navbar />
         <Hero />
         <WhoItsFor />
         <HowItWorks />
+        <ROICalculator />
         <Credibility />
         <LeadMagnet />
         <WhatHappensNext />

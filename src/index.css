@@ -46,6 +46,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -53,9 +54,12 @@
 }
 
 @keyframes bounce-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
+
   50% {
     transform: translateX(-50%) translateY(8px);
   }
@@ -66,10 +70,12 @@
     opacity: 1;
     transform: translateY(0);
   }
+
   75% {
     opacity: 0;
     transform: translateY(6px);
   }
+
   100% {
     opacity: 0;
     transform: translateY(6px);
@@ -77,25 +83,55 @@
 }
 
 @keyframes text-shine {
-  from { background-position: 0% center; }
-  to { background-position: 200% center; }
+  from {
+    background-position: 0% center;
+  }
+
+  to {
+    background-position: 200% center;
+  }
 }
 
 @keyframes mesh-drift {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(5%, 5%) scale(1.1); }
-  66% { transform: translate(-5%, 2%) scale(0.95); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(5%, 5%) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-5%, 2%) scale(0.95);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-20px) rotate(2deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
 }
 
 @keyframes breathe {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 158, 255, 0); }
-  50% { box-shadow: 0 0 20px 4px rgba(74, 158, 255, 0.3); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 158, 255, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 4px rgba(74, 158, 255, 0.3);
+  }
 }
 
 .animate-text-shine {
@@ -112,4 +148,48 @@
 
 .animate-breathe {
   animation: breathe 3s ease-in-out infinite;
+}
+
+/* System Pulse (Ripple) Effect */
+.ripple-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(74, 158, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-animation 600ms linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Shimmer Effect for Nav Links */
+.nav-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(74, 158, 255, 0.1),
+      transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.nav-link:hover .nav-shimmer {
+  transform: translateX(100%);
 }
