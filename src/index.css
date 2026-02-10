@@ -10,11 +10,34 @@
   }
 
   body {
-    @apply bg-charcoal-900 text-white font-sans;
+    @apply bg-charcoal-900 text-white font-sans selection:bg-accent/30 selection:text-white;
+    position: relative;
+    min-height: 100vh;
   }
 
-  ::selection {
-    @apply bg-accent/30 text-white;
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.025;
+    z-index: 50;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.05), transparent);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-accent-hover;
+    background-size: 200% auto;
+    animation: text-shine 3s linear infinite;
   }
 }
 
@@ -53,14 +76,40 @@
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.8s ease-out forwards;
+@keyframes text-shine {
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
 }
 
-.animate-bounce-slow {
-  animation: bounce-slow 2.5s ease-in-out infinite;
+@keyframes mesh-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(5%, 5%) scale(1.1); }
+  66% { transform: translate(-5%, 2%) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
-.animate-scroll-indicator {
-  animation: scroll-indicator 2s ease-in-out infinite;
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 158, 255, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(74, 158, 255, 0.3); }
+}
+
+.animate-text-shine {
+  animation: text-shine 3s linear infinite;
+}
+
+.animate-mesh {
+  animation: mesh-drift 20s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 10s ease-in-out infinite;
+}
+
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
 }
